@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GraciousStudios_Squashpix>
+            <version>0.1.0</version>
+        </GraciousStudios_Squashpix>
+    </modules>
+    <global>
+        <helpers>
+            <squashpix>
+                <class>GraciousStudios_Squashpix_Helper</class>
+            </squashpix>
+        </helpers>
+        <models>
+            <squashpix>
+                <class>GraciousStudios_Squashpix_Model</class>
+                <resourceModel>squashpix_mysql4</resourceModel>
+            </squashpix>
+            <catalog>
+                <rewrite>
+                    <product_image>GraciousStudios_Squashpix_Model_Catalog_Product_Image</product_image>
+                </rewrite>
+            </catalog>
+        </models>
+        <events>
+            <!-- COUPON EVENTS -->
+            <squashpix_save_image_after>
+                <observers>
+                    <squashpix_process_saved_image>
+                        <type>singleton</type>
+                        <class>GraciousStudios_Squashpix_Model_Observer</class>
+                        <method>processSavedImage</method>
+                    </squashpix_process_saved_image>
+                </observers>
+            </squashpix_save_image_after>
+        </events>
+    </global>
+    <crontab>
+        <jobs>
+            <squashpix_process_queue>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>squashpix/worker::processMessages</model>
+                </run>
+            </squashpix_process_queue>
+        </jobs>
+    </crontab>
+    <default>
+        <squashpix>
+            <squashpix>
+                <enabled>0</enabled>
+            </squashpix>
+        </squashpix>
+    </default>
+</config> 
